@@ -1,6 +1,6 @@
 'use client';
 
-import { MapContainer, TileLayer, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, CircleMarker, useMap, useMapEvents, Popup } from 'react-leaflet';
 import { useState, useEffect, useCallback } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { LatLngBoundsExpression, LatLngTuple } from 'leaflet';
@@ -37,15 +37,21 @@ interface GeoJSONCollection {
 }
 
 function LocationMarker() {
-    const map = useMap(); // This is correct, uses context
+    const [position, setPosition] = useState<LatLngTuple | null>(null);
+    const map = useMap();
 
     useEffect(() => {
         map.locate().on("locationfound", function (e) {
+            setPosition([e.latlng.lat, e.latlng.lng]);
             map.flyTo(e.latlng, 14);
         });
     }, [map]);
 
-    return null;
+    return position === null ? null : (
+        <CircleMarker center={position} radius={8} pathOptions={{ color: 'red', fillColor: 'red', fillOpacity: 0.8 }}>
+            <Popup>Je bent hier</Popup>
+        </CircleMarker>
+    );
 }
 
 function CreateWaterPoints() {
