@@ -58,7 +58,7 @@ function CreateWaterPoints() {
     useEffect(() => {
         const loadData = async () => {
             try {
-                const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+                const basePath = 'https://robinhout.github.io/waterpunten/';
                 const response = await fetch(`${basePath}/export.geojson`);
                 if (!response.ok) throw new Error('Failed to load GeoJSON');
 
