@@ -58,7 +58,8 @@ function CreateWaterPoints() {
     useEffect(() => {
         const loadData = async () => {
             try {
-                const response = await fetch('/export.geojson');
+                const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+                const response = await fetch(`${basePath}/export.geojson`);
                 if (!response.ok) throw new Error('Failed to load GeoJSON');
 
                 const data: GeoJSONCollection = await response.json();
